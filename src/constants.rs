@@ -9,10 +9,10 @@ pub const RADIAL_WAVE_NUM: usize = 5;
 
 
 pub static A_COEFF: Lazy<[f64; RADIAL_WAVE_NUM]> = Lazy::new(|| {
-    let mut A = [0.0; RADIAL_WAVE_NUM];
+    let mut a = [0.0; RADIAL_WAVE_NUM];
     for n in 1..RADIAL_WAVE_NUM {
         let nf = n as f64;
-        A[n-1] = 1.0/((4.0*nf*nf - 1.0).sqrt());
+        a[n-1] = 1.0/((4.0*nf*nf - 1.0).sqrt());
     }
-    A
+    a
 });

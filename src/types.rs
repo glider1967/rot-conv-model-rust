@@ -1,7 +1,6 @@
 use std::marker::PhantomData;
 
 use crate::constants::*;
-use nalgebra::{SVector, SMatrix};
 
 /// 両側粘着条件
 struct DD;
@@ -28,7 +27,7 @@ struct XiSpectre(LegendreSpectre<{ RADIAL_WAVE_NUM + 1 }>);
 /// 動径のスペクトル(ルジャンドル)
 struct RadSpectre(LegendreSpectre<{ RADIAL_WAVE_NUM + 1 }>);
 
-struct LegendreGrid<const D: usize>(SVector<f64, D>);
+struct LegendreGrid<const D: usize>([f64; D]);
 
 struct LatGrid(LegendreGrid<{ LATITUDE_GRID_NUM }>);
 struct RadGrid(LegendreGrid<{ RADIAL_GRID_NUM }>);
@@ -55,7 +54,6 @@ impl From<PsiSpectre<DD>> for RadSpectre {
         let psi = psi.0.0;
         let mut legendre = [0.0; RADIAL_WAVE_NUM+1];
         for i in 1..RADIAL_WAVE_NUM-1 {
-            let n = i as f64;
             legendre[i-1] += psi[i]*A_COEFF[i-1];
             legendre[i+1] -= psi[i]*A_COEFF[i];
         }
