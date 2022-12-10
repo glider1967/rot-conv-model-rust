@@ -68,8 +68,15 @@ impl From<RadSpectre> for PsiSpectre<DD> {
 }
 
 impl From<ZetaSpectre<DD>> for RadSpectre {
-    fn from(_: ZetaSpectre<DD>) -> Self {
-        unimplemented!()
+    fn from(zeta: ZetaSpectre<DD>) -> Self {
+        let zeta = zeta.0.0;
+        let mut legendre = [0.0; RADIAL_WAVE_NUM+1];
+        for i in 2..RADIAL_WAVE_NUM-2 {
+            legendre[i-2] -= zeta[i]*D_COEFF[i-2];
+            legendre[i] += zeta[i]*C_COEFF[i-1];
+            legendre[i+2] -= zeta[i]*D_COEFF[i];
+        }
+        RadSpectre(LegendreSpectre(legendre))
     }
 }
 
@@ -80,8 +87,14 @@ impl From<RadSpectre> for ZetaSpectre<DD> {
 }
 
 impl From<XiSpectre> for RadSpectre {
-    fn from(_: XiSpectre) -> Self {
-        unimplemented!()
+    fn from(xi: XiSpectre) -> Self {
+        let xi = xi.0.0;
+        let mut legendre = [0.0; RADIAL_WAVE_NUM+1];
+        for i in 1..RADIAL_WAVE_NUM-1 {
+            legendre[i-1] += xi[i]*A_COEFF[i-1];
+            legendre[i+1] -= xi[i]*A_COEFF[i];
+        }
+        RadSpectre(LegendreSpectre(legendre))
     }
 }
 
