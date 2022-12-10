@@ -56,8 +56,8 @@ impl From<PsiSpectre<DD>> for RadSpectre {
         let mut legendre = [0.0; RADIAL_WAVE_NUM+1];
         for i in 1..RADIAL_WAVE_NUM-1 {
             let n = i as f64;
-            legendre[i-1] += psi[i]/((4.0*n*n-1.0).sqrt());
-            legendre[i+1] -= psi[i]/((4.0*n*n+5.0*n+3.0).sqrt());
+            legendre[i-1] += psi[i]*A_COEFF[i-1];
+            legendre[i+1] -= psi[i]*A_COEFF[i];
         }
         RadSpectre(LegendreSpectre(legendre))
     }
